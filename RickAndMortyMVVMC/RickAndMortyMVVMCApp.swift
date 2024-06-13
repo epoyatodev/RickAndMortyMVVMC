@@ -11,7 +11,7 @@
 import SwiftUI
 import CharactersModule
 import Router
-//.,
+
 @main
 struct RickAndMortyMVVMCApp: App {
     @State private var router: Router = .init()
