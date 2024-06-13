@@ -17,6 +17,7 @@
 		3A83FFBB2C19EA55007E42BB /* CharactersModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A83FFBA2C19EA55007E42BB /* CharactersModule */; };
 		3A83FFBF2C19EB8F007E42BB /* Router in Frameworks */ = {isa = PBXBuildFile; productRef = 3A83FFBE2C19EB8F007E42BB /* Router */; };
 		3A83FFC22C1A1796007E42BB /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 3A83FFC12C1A1796007E42BB /* CachedAsyncImage */; };
+		A32EF1F62C1B0B4300A56B3D /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32EF1F52C1B0B4300A56B3D /* TabBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		3A83FFAB2C19C5B2007E42BB /* NetworkModule */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkModule; sourceTree = "<group>"; };
 		3A83FFB92C19EA44007E42BB /* CharactersModule */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CharactersModule; sourceTree = "<group>"; };
 		3A83FFBD2C19EB37007E42BB /* Router */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Router; sourceTree = "<group>"; };
+		A32EF1F52C1B0B4300A56B3D /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				3A83FF5D2C19A39F007E42BB /* RickAndMortyMVVMCApp.swift */,
+				A32EF1F52C1B0B4300A56B3D /* TabBarView.swift */,
 				3A83FF612C19A3A1007E42BB /* Assets.xcassets */,
 				3A83FF632C19A3A1007E42BB /* Preview Content */,
 			);
@@ -285,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A32EF1F62C1B0B4300A56B3D /* TabBarView.swift in Sources */,
 				3A83FF5E2C19A39F007E42BB /* RickAndMortyMVVMCApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
