@@ -16,7 +16,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "./Router"),
-        .package(path: "./NetworkModule")
+        .package(path: "./NetworkModule"),
+        .package(url: "https://github.com/lorenzofiamingo/swiftui-cached-async-image", exact: .init(stringLiteral: "2.1.1"))
 
     ],
     targets: [
@@ -26,7 +27,8 @@ let package = Package(
             name: "CharactersModule",
             dependencies: [
                 "Router",
-                "NetworkModule"
+                "NetworkModule",
+                .product(name: "CachedAsyncImage", package: "swiftui-cached-async-image")
             ]
         ),
         .testTarget(

@@ -18,7 +18,7 @@ public final class CharacterRepository: CharactersProtocol {
         self.characterDataSource = characterDataSource
     }
     
-    public func fetchCharacters() -> AnyPublisher<ResponseModel, Error> {
-        self.characterDataSource.fetchCharacters()
+    public func fetchCharacters(page: Int) -> AnyPublisher<ResponseModel, Error> {
+        self.characterDataSource.fetchCharacters(page: page)
     }
 }

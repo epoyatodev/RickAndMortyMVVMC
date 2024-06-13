@@ -9,12 +9,13 @@
 
 
 import SwiftUI
+import CachedAsyncImage
 
 public struct CharacterRow: View {
     public var character: CharacterModel
     public var body: some View {
         VStack(spacing: 0) {
-            AsyncImage(url: .init(string: character.image)) { Image in
+            CachedAsyncImage(url: .init(string: character.image)) { Image in
                 Image
                     .resizable()
                     .scaledToFit()

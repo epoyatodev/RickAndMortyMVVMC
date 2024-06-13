@@ -13,7 +13,10 @@ import Combine
 
 @Observable
 public final class CharactersViewModel {
-    public var characters: [CharacterModel]?
+    public var characters: [CharacterModel] = []
+    
+    public var page: Int = 0
+    public var offset: Int = 1
     private var subscriptor = Set<AnyCancellable>()
     private let charactersRepository: CharacterRepository
     
@@ -23,7 +26,7 @@ public final class CharactersViewModel {
     
     @MainActor
     public func fetchCharacters() {
-        charactersRepository.fetchCharacters()
+        charactersRepository.fetchCharacters(page: offset)
             .sink { completion in
                 switch completion {
                 case .failure(let error):
@@ -32,7 +35,10 @@ public final class CharactersViewModel {
                     break
                 }
             } receiveValue: { response in
-                self.characters = response.results
+                self.characters.append(contentsOf: response.results)
+                if let _ = response.info.next {
+                    self.offset += 1
+                }
             }
             .store(in: &subscriptor)
 

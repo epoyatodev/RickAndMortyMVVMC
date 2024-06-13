@@ -17,6 +17,7 @@ public enum CharacterDestination: Hashable {
 
 public struct CharactersTabCoordinator: View {
     @Environment(Router.self) var router
+    @Environment(\.dismiss) var dismiss
     
     public init() {}
     public var body: some View {
@@ -26,7 +27,9 @@ public struct CharactersTabCoordinator: View {
                 .navigationDestination(for: CharacterDestination.self) { destination in
                     switch destination {
                     case let .characterDetail(character):
-                        Text(character.name)
+                        CharacterDetail(character: character)
+                            .toolbar(.hidden)
+                            .customNav()
                     }
                 }
         }
@@ -38,3 +41,4 @@ public struct CharactersTabCoordinator: View {
     CharactersTabCoordinator()
         .environment(Router())
 }
+

@@ -12,7 +12,7 @@ import NetworkModule
 import Combine
 
 public protocol CharactersProtocol {
-    func fetchCharacters() -> AnyPublisher<ResponseModel, Error>
+    func fetchCharacters(page: Int) -> AnyPublisher<ResponseModel, Error>
 }
 
 public final class CharactersDataSource: CharactersProtocol {
@@ -24,7 +24,7 @@ public final class CharactersDataSource: CharactersProtocol {
         self.networker = networker
     }
     
-    public func fetchCharacters() -> AnyPublisher<ResponseModel, Error> {
-        return networker.callServer(type: ResponseModel.self, request: apiClientService.buildURLRequest(from: ApiEndpoints.fetchCharacters())!)
+    public func fetchCharacters(page: Int) -> AnyPublisher<ResponseModel, Error> {
+        return networker.callServer(type: ResponseModel.self, request: apiClientService.buildURLRequest(from: ApiEndpoints.fetchCharacters(page: page))!)
     }
 }
