@@ -11,7 +11,7 @@
 import Foundation
 
 public enum ApiEndpoints {
-    public static func fetchCharacters(page: Int) -> APIEndpoint {
-        return .init(baseURL: URL(string: "https://rickandmortyapi.com") ,path: "/api/character", httpMethod: .get, urlQueries: ["page": page.description])
+    public static func fetchCharacters(page: Int, filter: String) -> APIEndpoint {
+        return .init(baseURL: URL(string: "https://rickandmortyapi.com") ,path: "/api/character", httpMethod: .get, urlQueries: ["page": page.description, "name": filter.description])
     }
 }

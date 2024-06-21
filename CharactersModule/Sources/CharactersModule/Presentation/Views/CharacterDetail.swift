@@ -16,7 +16,7 @@ struct CharacterDetail: View {
     var character: CharacterModel
     var body: some View {
         ZStack {
-            VStack() {
+            VStack {
                 CachedAsyncImage(url: .init(string: character.image)) { Image in
                     Image
                         .resizable()
@@ -40,7 +40,6 @@ struct CharacterDetail: View {
             }
             
         }
-        .ignoresSafeArea()
     }
 }
 

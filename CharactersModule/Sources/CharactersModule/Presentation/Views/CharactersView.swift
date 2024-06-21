@@ -13,60 +13,77 @@ import Router
 
 public struct CharactersView: View {
     @Environment(Router.self) private var router
-    @State public var charactersViewModel = CharactersViewModel()
+    @Environment(\.isSearching) private var isSearching
+    @Binding public var charactersViewModel: CharactersViewModel
     
     public var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                LazyVGrid(columns: .getGridItemsCharacterRow(geometry: geometry), content: {
-                    ForEach(charactersViewModel.characters) { character in
-                        CharacterRow(character: character)
-                            .onTapGesture {
-                                router.navigate(to: CharacterDestination.characterDetail(character: character))
-                            }
-                    }
-                })
-                .padding()
-                
-                if charactersViewModel.offset == charactersViewModel.page{
-                    ProgressView()
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                charactersViewModel.fetchCharacters()
-                            }
-                        }
-                } else {
-                    GeometryReader { reader -> Color in
-                        let minY = reader.frame(in: .global).minY
-                        let height = UIScreen.main.bounds.height / 1.3
-                        
-                        if minY < height {
-                            
-                            if !charactersViewModel.characters.isEmpty  {
-                                DispatchQueue.main.async {
-                                    self.charactersViewModel.page = charactersViewModel.offset
+        
+            GeometryReader { geometry in
+                ScrollView {
+                    LazyVGrid(columns: .getGridItemsCharacterRow(geometry: geometry), content: {
+                        ForEach(0..<charactersViewModel.characters.count, id: \.self) { i in
+                            CharacterRow(character: charactersViewModel.characters[i])
+                                .onTapGesture {
+                                    router.navigate(to: CharacterDestination.characterDetail(character: charactersViewModel.characters[i]))
                                 }
-                            }
-
                         }
-                        return Color.clear
-                    }
-                    .frame(width: 30, height: 30)
+                    })
+                    .padding()
+                    
+                    LoadMore()
                 }
             }
-        }
-        .navigationTitle("Characters")
-        .task {
-            charactersViewModel.fetchCharacters()
+            .navigationTitle("Characters")
+            .onChange(of: isSearching, { _, newValue in
+                if !newValue {
+                    charactersViewModel.resetOffset()
+                }
+            })
+            .onChange(of: charactersViewModel.searchText) { _, searchTxt in
+                charactersViewModel.resetOffset()
+                charactersViewModel.fetchCharacters(filter: searchTxt, loadMore: false)
+            }
+                                      
+
+        
+        
+        
+    }
+    
+    @ViewBuilder
+    private func LoadMore() -> some View {
+        if charactersViewModel.offset == charactersViewModel.page {
+            ProgressView()
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        charactersViewModel.fetchCharacters(filter: charactersViewModel.searchText, loadMore: true)
+                        
+                    }
+                }
+        } else {
+            GeometryReader { reader -> Color in
+                let minY = reader.frame(in: .global).minY
+                let height = UIScreen.main.bounds.height / 1.3
+                
+                if minY < height {
+                    
+                    if !charactersViewModel.characters.isEmpty{
+                        DispatchQueue.main.async {
+                            self.charactersViewModel.page = charactersViewModel.offset
+                        }
+                    }
+                    
+                }
+                return Color.clear
+            }
+            .frame(width: 30, height: 30)
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        CharactersView()
+        CharactersView(charactersViewModel: .constant(.init()))
             .environment(Router())
     }
 }
-
-

@@ -17,30 +17,43 @@ public final class CharactersViewModel {
     
     public var page: Int = 0
     public var offset: Int = 1
+    public var searchText: String = ""
+    
     private var subscriptor = Set<AnyCancellable>()
     private let charactersRepository: CharacterRepository
     
     public init(charactersRepository: CharacterRepository = .init()) {
         self.charactersRepository = charactersRepository
+        Task {
+            await self.fetchCharacters(filter: "" , loadMore: false)
+        }
     }
     
     @MainActor
-    public func fetchCharacters() {
-        charactersRepository.fetchCharacters(page: offset)
+    public func fetchCharacters(filter: String, loadMore: Bool) {
+        charactersRepository.fetchCharacters(page: offset, filter: filter)
             .sink { completion in
                 switch completion {
                 case .failure(let error):
                     print(error.localizedDescription)
-                default:
-                    break
+                case .finished:
+                    self.offset += 1
+                    
                 }
             } receiveValue: { response in
-                self.characters.append(contentsOf: response.results)
-                if let _ = response.info.next {
-                    self.offset += 1
+                if !loadMore {
+                    self.characters = response.results
+                } else {
+                    self.characters.append(contentsOf: response.results)
                 }
+                
             }
             .store(in: &subscriptor)
-
     }
+    
+    public func resetOffset() {
+        self.offset = 1
+        self.page = 0
+    }
+    
 }
